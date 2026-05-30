@@ -1,0 +1,40 @@
+[
+  {
+    "mon": "Hóa Học",
+    "mon_id": "hoa-hoc",
+    "mo_ta": "Tổng hợp các đề thi thử THPTQG Hoá",
+    "cham_diem": {
+      "phan_I_diem_moi_cau": 0.25,
+      "phan_III_diem_moi_cau": 0.25
+    },
+    "de_thi": [
+      {
+        "id": "de-hoa-so-1",
+        "ten": "Đề số 1",
+        "mo_ta": "Đề thi thử THPTQG Hoá",
+        "tong_cau": 28,
+        "thoi_gian_phut": 50
+      }
+    ]
+  },
+  {
+    "mon": "Toán Học",
+    "mon_id": "toan-hoc",
+    "mo_ta": "Tổng hợp các đề thi thử THPTQG Toán",
+    "cham_diem": {
+      "phan_I_diem_moi_cau": 0.25,
+      "phan_III_diem_moi_cau": 0.5
+    },
+    "de_thi": []
+  },
+  {
+    "mon": "Vật Lí",
+    "mon_id": "vat-li",
+    "mo_ta": "Tổng hợp các đề thi thử THPTQG Lí",
+    "cham_diem": {
+      "phan_I_diem_moi_cau": 0.25,
+      "phan_III_diem_moi_cau": 0.25
+    },
+    "de_thi": []
+  }
+]

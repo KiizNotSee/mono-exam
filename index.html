@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tự Học · Kho Đề Thi</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath:[['$','$'],['\\(','\\)']], displayMath:[['$$','$$'],['\\[','\\]']], processEscapes:true, tags:'ams' },
+      options: { skipHtmlTags:['script','noscript','style','textarea','pre'], processHtmlClass:'mathjax' },
+      startup: { typeset: false }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<!-- ═══ RIBBON ═══════════════════════════════════════════════════ -->
+<div class="ribbon" id="ribbon">
+  <span class="ribbon__exam" id="ribbon-exam-id">KHO ĐỀ THI</span>
+  <span class="ribbon__sep">|</span>
+  <span class="ribbon__progress" id="ribbon-progress">TỰ HỌC · TỰ KIỂM TRA · TỰ TIẾN BỘ</span>
+</div>
+
+<!-- ═══ LAYOUT ROOT (exam mode adds sidebar) ═══════════════════ -->
+<div class="layout-root" id="layout-root">
+
+  <!-- ─── SIDEBAR (exam mode only, injected by JS) ─────────────── -->
+
+  <!-- ─── MAIN SCROLL AREA ─────────────────────────────────────── -->
+  <div class="layout-main">
+    <div class="page-wrapper">
+
+      <header class="site-header">
+        <div class="header-rule-top"></div>
+        <div class="header-inner">
+          <div class="header-meta">
+            <span class="header-label" id="header-meta-left">TỰ HỌC</span>
+            <span class="header-dot">■</span>
+            <span class="header-label" id="header-meta-right">KHO ĐỀ THI</span>
+          </div>
+          <h1 class="header-title" id="header-title">KHO<br/>ĐỀ</h1>
+          <div class="header-subtitle-row">
+            <div class="header-thick-rule"></div>
+            <span class="header-subtitle" id="header-subtitle">Đang tải...</span>
+          </div>
+        </div>
+        <div class="header-rule-bottom"></div>
+      </header>
+
+      <!-- Exam Overview block (injected here in exam mode) -->
+      <div id="exam-overview-slot"></div>
+
+      <!-- Score Report block (shown after submit) -->
+      <div id="score-report-slot" style="display:none;"></div>
+
+      <main class="main-content" id="main-content">
+        <div class="loading-state" id="loading-state">
+          <div class="loading-bar"></div>
+          <p class="loading-text">ĐANG TẢI</p>
+        </div>
+        <div class="error-state" id="error-state" style="display:none;">
+          <p class="error-code">404</p>
+          <p class="error-msg" id="error-msg">Không tìm thấy dữ liệu.</p>
+          <p class="error-hint">Kiểm tra URL: <code>?de=ten-file-de</code></p>
+        </div>
+      </main>
+
+      <!-- Submit zone (exam mode only) -->
+      <div id="submit-zone" style="display:none;">
+        <div class="submit-zone-inner">
+          <div class="submit-rule"></div>
+          <button class="submit-btn" id="submit-btn" onclick="handleSubmitClick()">
+            NỘP BÀI
+          </button>
+        </div>
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-rule"></div>
+        <div class="footer-inner">
+          <span class="footer-text">TỰ HỌC · TỰ KIỂM TRA · TỰ TIẾN BỘ</span>
+          <span class="footer-text" id="footer-stats">—</span>
+        </div>
+      </footer>
+
+    </div><!-- /.page-wrapper -->
+  </div><!-- /.layout-main -->
+</div><!-- /.layout-root -->
+
+<!-- ═══ MOBILE NAV BUTTON (exam mode only) ══════════════════════ -->
+<button class="mobile-nav-btn" id="mobile-nav-btn" style="display:none;" onclick="openMobileNav()" aria-label="Mục lục câu hỏi">
+  <span class="mobile-nav-btn__icon">☰</span>
+  <span class="mobile-nav-btn__label">MỤC LỤC</span>
+</button>
+
+<!-- ═══ MOBILE NAV PANEL ════════════════════════════════════════ -->
+<div class="mobile-nav-overlay" id="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+<div class="mobile-nav-panel" id="mobile-nav-panel">
+  <div class="mobile-nav-panel__header">
+    <span class="mobile-nav-panel__title">MỤC LỤC CÂU HỎI</span>
+    <button class="mobile-nav-panel__close" onclick="closeMobileNav()">✕</button>
+  </div>
+  <div class="mobile-nav-panel__body" id="mobile-nav-body"></div>
+</div>
+
+<!-- ═══ MODAL ════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" style="display:none;">
+  <div class="modal" id="modal">
+    <div class="modal__header">
+      <p class="modal__title" id="modal-title">XÁC NHẬN NỘP BÀI</p>
+    </div>
+    <div class="modal__body" id="modal-body"></div>
+    <div class="modal__footer">
+      <button class="modal-btn modal-btn--secondary" onclick="closeModal()">QUAY LẠI LÀM TIẾP</button>
+      <button class="modal-btn modal-btn--primary" id="modal-confirm-btn" onclick="confirmSubmit()">VẪN NỘP BÀI</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════════════════ */
+const BASE_URL      = "./";
+const MANIFEST_FILE = "danh-sach-de.json";
+
+/* Phần II scoring table (THPTQG 2026) */
+const P2_SCORE = { 0: 0, 1: 0.1, 2: 0.25, 3: 0.5, 4: 1 };
+
+/* ═══════════════════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════════════════ */
+let examId        = "";
+let examData      = [];
+let answers       = {};
+let totalQuestions = 0;
+let scoringConfig  = { phan_I_diem_moi_cau: 0.25, phan_III_diem_moi_cau: 0.25 };
+let submitted      = false;
+let subjectName    = "";
+let examMeta       = null;  // the entry from manifest for current exam
+
+/* ═══════════════════════════════════════════════════════════════════
+   URL / STORAGE
+═══════════════════════════════════════════════════════════════════ */
+function getExamIdFromUrl() {
+  return new URLSearchParams(window.location.search).get("de") || "";
+}
+
+function storageKey(id) { return `tu-hoc-exam::${id || examId}`; }
+function historyKey()   { return `tu-hoc-history`; }
+
+function saveAnswers()   { localStorage.setItem(storageKey(), JSON.stringify(answers)); }
+function loadAnswers()   { const r = localStorage.getItem(storageKey()); return r ? JSON.parse(r) : {}; }
+function loadAnswersFor(id) { const r = localStorage.getItem(storageKey(id)); return r ? JSON.parse(r) : {}; }
+
+function saveHistory(entry) {
+  const raw = localStorage.getItem(historyKey());
+  const hist = raw ? JSON.parse(raw) : [];
+  // remove same exam previous entry
+  const filtered = hist.filter(h => h.examId !== entry.examId);
+  filtered.unshift(entry); // newest first
+  // keep last 50
+  localStorage.setItem(historyKey(), JSON.stringify(filtered.slice(0, 50)));
+}
+
+function loadHistory() {
+  const raw = localStorage.getItem(historyKey());
+  return raw ? JSON.parse(raw) : [];
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PROGRESS HELPERS
+═══════════════════════════════════════════════════════════════════ */
+function getQuestionStatus(q) {
+  const so = q.so_cau;
+  if (q.phan === "I") {
+    return answers[`I-${so}`] ? "done" : "empty";
+  }
+  if (q.phan === "II") {
+    const total = q.y_nho.length;
+    const done  = q.y_nho.filter(y => answers[`II-${so}-${y.ky_hieu}`]).length;
+    if (done === 0)     return "empty";
+    if (done < total)   return "partial";
+    return "done";
+  }
+  if (q.phan === "III") {
+    const v = answers[`III-${so}`];
+    return (v !== undefined && v !== "") ? "done" : "empty";
+  }
+  return "empty";
+}
+
+function countCompleted() {
+  return examData.filter(q => getQuestionStatus(q) === "done").length;
+}
+
+function computeProgressFromStorage(id, totalCau) {
+  const saved = loadAnswersFor(id);
+  const done  = Object.values(saved).filter(v => v !== "" && v !== null).length;
+  const pct   = totalCau > 0 ? Math.min(100, Math.round((done / totalCau) * 100)) : 0;
+  return { done, total: totalCau, pct };
+}
+
+function updateRibbon() {
+  const done = countCompleted();
+  const pct  = totalQuestions > 0 ? Math.round((done / totalQuestions) * 100) : 0;
+  document.getElementById("ribbon-progress").textContent =
+    `PROGRESS: ${done} / ${totalQuestions} ANSWERED (${pct}%)`;
+  document.getElementById("footer-stats").textContent = `${done}/${totalQuestions} · ${pct}%`;
+  updateNavGrid();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCORING ENGINE
+═══════════════════════════════════════════════════════════════════ */
+function scoreExam() {
+  const phanI   = examData.filter(q => q.phan === "I");
+  const phanII  = examData.filter(q => q.phan === "II");
+  const phanIII = examData.filter(q => q.phan === "III");
+
+  // Phần I
+  let p1Correct = 0, p1Wrong = [];
+  phanI.forEach(q => {
+    if (answers[`I-${q.so_cau}`] === q.dap_an_dung) {
+      p1Correct++;
+    } else {
+      p1Wrong.push(q.so_cau);
+    }
+  });
+  const p1Score = p1Correct * scoringConfig.phan_I_diem_moi_cau;
+  const p1Max   = phanI.length * scoringConfig.phan_I_diem_moi_cau;
+
+  // Phần II
+  let p2Score = 0, p2Details = [];
+  phanII.forEach(q => {
+    const so    = q.so_cau;
+    const total = q.y_nho.length;
+    const correct = q.y_nho.filter(y => answers[`II-${so}-${y.ky_hieu}`] === y.ket_qua).length;
+    const pts = P2_SCORE[correct] ?? 0;
+    p2Score += pts;
+    p2Details.push({ so_cau: so, correct, total, pts, perfect: correct === total });
+  });
+  const p2Max = phanII.length * 1;
+
+  // Phần III
+  let p3Correct = 0, p3Wrong = [];
+  phanIII.forEach(q => {
+    const userAns = (answers[`III-${q.so_cau}`] || "").trim().toLowerCase();
+    const correct = String(q.dap_an_dung).trim().toLowerCase();
+    if (userAns === correct && userAns !== "") {
+      p3Correct++;
+    } else {
+      p3Wrong.push(q.so_cau);
+    }
+  });
+  const p3Score = p3Correct * scoringConfig.phan_III_diem_moi_cau;
+  const p3Max   = phanIII.length * scoringConfig.phan_III_diem_moi_cau;
+
+  const total    = +(p1Score + p2Score + p3Score).toFixed(2);
+  const totalMax = +(p1Max + p2Max + p3Max).toFixed(2);
+
+  return { p1Score, p1Max, p1Correct, p1Wrong,
+           p2Score, p2Max, p2Details,
+           p3Score, p3Max, p3Correct, p3Wrong,
+           total, totalMax };
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MATHJAX
+═══════════════════════════════════════════════════════════════════ */
+function typesetNode(node) {
+  if (window.MathJax && window.MathJax.typesetPromise)
+    MathJax.typesetPromise([node]).catch(e => console.warn("MathJax:", e));
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DOM HELPERS
+═══════════════════════════════════════════════════════════════════ */
+function el(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SIDEBAR / NAV GRID
+═══════════════════════════════════════════════════════════════════ */
+function buildNavGrid() {
+  const parts = [
+    { label:"I",   qs: examData.filter(q=>q.phan==="I")   },
+    { label:"II",  qs: examData.filter(q=>q.phan==="II")  },
+    { label:"III", qs: examData.filter(q=>q.phan==="III") },
+  ].filter(p => p.qs.length);
+
+  function makeGrid(container) {
+    container.innerHTML = "";
+    parts.forEach(part => {
+      const group = el("div","nav-group");
+      const lbl   = el("div","nav-group__label", `PHẦN ${part.label}`);
+      group.appendChild(lbl);
+      const cells = el("div","nav-cells");
+      part.qs.forEach(q => {
+        const status = getQuestionStatus(q);
+        const cell = el("a", `nav-cell nav-cell--${status}`);
+        cell.href = `#q-${q.phan}-${q.so_cau}`;
+        cell.textContent = q.so_cau;
+        cell.addEventListener("click", () => { closeMobileNav(); });
+        cells.appendChild(cell);
+      });
+      group.appendChild(cells);
+      container.appendChild(group);
+    });
+  }
+
+  // Desktop sidebar
+  const sidebar = document.getElementById("exam-sidebar");
+  if (sidebar) {
+    const body = sidebar.querySelector(".sidebar__body");
+    if (body) makeGrid(body);
+  }
+  // Mobile panel
+  const mobileBody = document.getElementById("mobile-nav-body");
+  if (mobileBody) makeGrid(mobileBody);
+}
+
+function updateNavGrid() { buildNavGrid(); }
+
+function buildSidebar() {
+  const layout = document.getElementById("layout-root");
+  layout.classList.add("layout-root--exam");
+
+  const sidebar = el("div","exam-sidebar","");
+  sidebar.id = "exam-sidebar";
+  sidebar.innerHTML = `
+    <div class="sidebar__header">
+      <span class="sidebar__title">MỤC LỤC</span>
+      <a href="./" class="sidebar__home">← Trang chủ</a>
+    </div>
+    <div class="sidebar__body" id="sidebar-body"></div>
+    <div class="sidebar__progress" id="sidebar-progress"></div>
+  `;
+  layout.insertBefore(sidebar, layout.firstChild);
+  updateSidebarProgress();
+}
+
+function updateSidebarProgress() {
+  const el2 = document.getElementById("sidebar-progress");
+  if (!el2) return;
+  const done = countCompleted();
+  const pct  = totalQuestions > 0 ? Math.round(done/totalQuestions*100) : 0;
+  el2.innerHTML = `
+    <div class="sidebar__prog-bar"><div class="sidebar__prog-fill" style="width:${pct}%"></div></div>
+    <span class="sidebar__prog-text">${done} / ${totalQuestions} · ${pct}%</span>
+  `;
+}
+
+function openMobileNav()  {
+  document.getElementById("mobile-nav-panel").classList.add("is-open");
+  document.getElementById("mobile-nav-overlay").classList.add("is-visible");
+}
+function closeMobileNav() {
+  document.getElementById("mobile-nav-panel").classList.remove("is-open");
+  document.getElementById("mobile-nav-overlay").classList.remove("is-visible");
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   EXAM OVERVIEW BLOCK
+═══════════════════════════════════════════════════════════════════ */
+function renderExamOverview() {
+  const pI   = examData.filter(q=>q.phan==="I").length;
+  const pII  = examData.filter(q=>q.phan==="II").length;
+  const pIII = examData.filter(q=>q.phan==="III").length;
+  const max  = Math.max(pI, pII, pIII);
+  const bar  = (n) => {
+    const filled = max > 0 ? Math.round((n / max) * 10) : 0;
+    return "█".repeat(filled) + "░".repeat(10-filled);
+  };
+  const examLabel = examId.replace(/-/g," ").toUpperCase();
+  const tgText    = examMeta?.thoi_gian_phut ? `${examMeta.thoi_gian_phut} PHÚT` : "—";
+
+  const slot = document.getElementById("exam-overview-slot");
+  slot.innerHTML = `
+    <div class="overview-block">
+      <div class="overview-left">
+        <p class="overview-exam-name">${examMeta?.ten || examLabel}</p>
+        <div class="overview-tag">${subjectName.toUpperCase()}</div>
+        <p class="overview-desc">${examMeta?.mo_ta || ""}</p>
+      </div>
+      <div class="overview-right">
+        <div class="overview-meta-row">
+          <span class="overview-meta-label">THỜI GIAN</span>
+          <span class="overview-meta-val">${tgText}</span>
+        </div>
+        <div class="overview-meta-row">
+          <span class="overview-meta-label">TỔNG SỐ CÂU</span>
+          <span class="overview-meta-val">${totalQuestions}</span>
+        </div>
+        <div class="overview-divider"></div>
+        <div class="overview-chart">
+          <div class="overview-chart-row">
+            <span class="overview-chart-label">PHẦN I</span>
+            <span class="overview-chart-bar">${bar(pI)}</span>
+            <span class="overview-chart-num">${pI} câu</span>
+          </div>
+          <div class="overview-chart-row">
+            <span class="overview-chart-label">PHẦN II</span>
+            <span class="overview-chart-bar">${bar(pII)}</span>
+            <span class="overview-chart-num">${pII} câu</span>
+          </div>
+          <div class="overview-chart-row">
+            <span class="overview-chart-label">PHẦN III</span>
+            <span class="overview-chart-bar">${bar(pIII)}</span>
+            <span class="overview-chart-num">${pIII} câu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SCORE REPORT
+═══════════════════════════════════════════════════════════════════ */
+function renderScoreReport(result) {
+  const slot = document.getElementById("score-report-slot");
+  slot.style.display = "block";
+  document.getElementById("exam-overview-slot").style.display = "none";
+
+  const pctTotal = result.totalMax > 0 ? Math.round(result.total/result.totalMax*100) : 0;
+
+  // P2 breakdown rows
+  const p2rows = result.p2Details.map(d => `
+    <div class="report-p2-row ${d.perfect ? "report-p2-row--perfect" : "report-p2-row--partial"}">
+      <span class="report-p2-cau">Câu ${d.so_cau}</span>
+      <span class="report-p2-fraction">${d.correct}/${d.total} ý đúng</span>
+      <span class="report-p2-pts">${d.pts.toFixed(2)}đ</span>
+    </div>
+  `).join("");
+
+  const p1WrongText  = result.p1Wrong.length  ? `Sai câu: ${result.p1Wrong.join(", ")}` : "Đúng tất cả";
+  const p3WrongText  = result.p3Wrong.length  ? `Sai câu: ${result.p3Wrong.join(", ")}` : "Đúng tất cả";
+
+  slot.innerHTML = `
+    <div class="score-report">
+      <div class="score-report__hero">
+        <div class="score-report__total-wrap">
+          <span class="score-report__total">${result.total.toFixed(2)}</span>
+          <span class="score-report__total-max">/ ${result.totalMax.toFixed(2)}</span>
+        </div>
+        <div class="score-report__bar-track">
+          <div class="score-report__bar-fill" style="width:${pctTotal}%"></div>
+        </div>
+        <span class="score-report__pct">${pctTotal}%</span>
+      </div>
+      <div class="score-report__breakdown">
+        <div class="score-report__part">
+          <div class="score-report__part-header">
+            <span class="score-report__part-name">PHẦN I — TRẮC NGHIỆM</span>
+            <span class="score-report__part-score">${result.p1Score.toFixed(2)} / ${result.p1Max.toFixed(2)}đ</span>
+          </div>
+          <p class="score-report__part-detail">${p1WrongText}</p>
+        </div>
+        <div class="score-report__part score-report__part--p2">
+          <div class="score-report__part-header">
+            <span class="score-report__part-name">PHẦN II — ĐÚNG / SAI</span>
+            <span class="score-report__part-score">${result.p2Score.toFixed(2)} / ${result.p2Max.toFixed(2)}đ</span>
+          </div>
+          <div class="report-p2-grid">${p2rows}</div>
+        </div>
+        <div class="score-report__part">
+          <div class="score-report__part-header">
+            <span class="score-report__part-name">PHẦN III — TRẢ LỜI NGẮN</span>
+            <span class="score-report__part-score">${result.p3Score.toFixed(2)} / ${result.p3Max.toFixed(2)}đ</span>
+          </div>
+          <p class="score-report__part-detail">${p3WrongText}</p>
+        </div>
+      </div>
+      <button class="score-report__redo" onclick="resetExam()">← LÀM LẠI TỪ ĐẦU</button>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   QUESTION CARD MARKING (after submit)
+═══════════════════════════════════════════════════════════════════ */
+function markAllCards() {
+  examData.forEach(q => {
+    const cardEl = document.getElementById(`card-${q.phan}-${q.so_cau}`);
+    if (!cardEl) return;
+
+    if (q.phan === "I") {
+      const userAns   = answers[`I-${q.so_cau}`];
+      const correct   = userAns === q.dap_an_dung;
+      cardEl.classList.add(correct ? "card--correct" : "card--wrong");
+      // show solution block automatically on wrong
+      if (!correct) {
+        const solBlock = cardEl.querySelector(".solution-block");
+        if (solBlock) solBlock.classList.add("is-open");
+      }
+      // highlight options
+      cardEl.querySelectorAll(".option-label").forEach(lbl => {
+        const val = lbl.querySelector("input")?.value;
+        if (val === q.dap_an_dung) lbl.classList.add("option--correct");
+        else if (val === userAns && userAns !== q.dap_an_dung) lbl.classList.add("option--wrong");
+      });
+    }
+
+    if (q.phan === "II") {
+      const result = document.getElementById(`p2-result-${q.so_cau}`);
+      const so = q.so_cau;
+      const correct = q.y_nho.filter(y => answers[`II-${so}-${y.ky_hieu}`] === y.ket_qua).length;
+      const perfect = correct === q.y_nho.length;
+      cardEl.classList.add(perfect ? "card--correct" : "card--wrong");
+      if (!perfect) {
+        const solBlock = cardEl.querySelector(".solution-block");
+        if (solBlock) solBlock.classList.add("is-open");
+      }
+      // mark each y-nho row
+      q.y_nho.forEach(y => {
+        const row = cardEl.querySelector(`[data-y-key="II-${so}-${y.ky_hieu}"]`);
+        if (!row) return;
+        const userVal = answers[`II-${so}-${y.ky_hieu}`];
+        const isRight = userVal === y.ket_qua;
+        row.classList.add(isRight ? "y-row--correct" : "y-row--wrong");
+      });
+    }
+
+    if (q.phan === "III") {
+      const userAns = (answers[`III-${q.so_cau}`] || "").trim().toLowerCase();
+      const correct = String(q.dap_an_dung).trim().toLowerCase();
+      const isRight = userAns === correct && userAns !== "";
+      cardEl.classList.add(isRight ? "card--correct" : "card--wrong");
+      if (!isRight) {
+        const solBlock = cardEl.querySelector(".solution-block");
+        if (solBlock) solBlock.classList.add("is-open");
+      }
+    }
+  });
+  // lock all inputs
+  document.querySelectorAll(".option-label input, .ds-btn, .short-input").forEach(inp => {
+    inp.disabled = true;
+  });
+  // hide solution toggle buttons
+  document.querySelectorAll(".ghost-btn").forEach(b => b.style.display = "none");
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    MathJax.typesetPromise([document.getElementById("main-content")]).catch(console.warn);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SUBMIT FLOW
+═══════════════════════════════════════════════════════════════════ */
+function handleSubmitClick() {
+  if (submitted) return;
+
+  const missing = [];
+  examData.forEach(q => {
+    const so = q.so_cau;
+    if (q.phan === "I" && !answers[`I-${so}`]) {
+      missing.push(`Câu ${so} (Phần I)`);
+    }
+    if (q.phan === "II") {
+      const unset = q.y_nho.filter(y => !answers[`II-${so}-${y.ky_hieu}`]);
+      if (unset.length) {
+        const labels = unset.map(y => `ý ${y.ky_hieu}`).join(", ");
+        missing.push(`Câu ${so} Phần II (còn trống: ${labels})`);
+      }
+    }
+    if (q.phan === "III") {
+      const v = answers[`III-${so}`];
+      if (!v || v.trim() === "") missing.push(`Câu ${so} (Phần III)`);
+    }
+  });
+
+  const modalBody = document.getElementById("modal-body");
+  if (missing.length) {
+    document.getElementById("modal-title").textContent = "CÒN CÂU CHƯA HOÀN THÀNH";
+    modalBody.innerHTML = `
+      <p class="modal__warning">Bạn chưa làm xong ${missing.length} câu/ý:</p>
+      <ul class="modal__missing-list">${missing.map(m=>`<li>${m}</li>`).join("")}</ul>
+      <p class="modal__confirm-q">Vẫn muốn nộp bài?</p>
+    `;
+  } else {
+    document.getElementById("modal-title").textContent = "XÁC NHẬN NỘP BÀI";
+    modalBody.innerHTML = `<p class="modal__warning">Bạn đã hoàn thành tất cả ${totalQuestions} câu.<br>Nộp bài và xem kết quả?</p>`;
+  }
+  document.getElementById("modal-overlay").style.display = "flex";
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").style.display = "none";
+}
+
+function confirmSubmit() {
+  closeModal();
+  submitted = true;
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // Score
+  const result = scoreExam();
+
+  // Save to history
+  saveHistory({
+    examId,
+    examName: examMeta?.ten || examId,
+    subject:  subjectName,
+    score:    result.total,
+    maxScore: result.totalMax,
+    date:     new Date().toISOString(),
+  });
+
+  // Render report, mark cards
+  renderScoreReport(result);
+  markAllCards();
+
+  // Hide submit zone
+  document.getElementById("submit-zone").style.display = "none";
+  // Hide submit btn from sidebar
+  document.getElementById("submit-btn") && (document.getElementById("submit-btn").style.display="none");
+  // Update nav (all cells should show state)
+  updateNavGrid();
+}
+
+function resetExam() {
+  localStorage.removeItem(storageKey());
+  window.location.reload();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SOLUTION BLOCK BUILDER (NO toggle button in exam mode)
+═══════════════════════════════════════════════════════════════════ */
+function buildSolutionBlock(q) {
+  const wrap = el("div","solution-block");
+
+  if (q.phan === "I") {
+    const da = el("div","solution-answer");
+    da.innerHTML = `<span class="solution-label">ĐÁP ÁN ĐÚNG</span><span class="solution-value">${q.dap_an_dung} — ${q.lua_chon[q.dap_an_dung]}</span>`;
+    wrap.appendChild(da);
+  }
+  if (q.phan === "II") {
+    const table = el("div","solution-table");
+    q.y_nho.forEach(y => {
+      const row = el("div",`solution-row solution-row--${y.ket_qua==="Dung"?"dung":"sai"}`);
+      row.innerHTML = `
+        <span class="solution-ky-hieu">${y.ky_hieu.toUpperCase()}</span>
+        <span class="solution-ket-qua">${y.ket_qua==="Dung"?"ĐÚNG":"SAI"}</span>
+        <span class="solution-giai">${y.giai_thich}</span>
+      `;
+      table.appendChild(row);
+    });
+    wrap.appendChild(table);
+  }
+  if (q.phan === "III") {
+    const da = el("div","solution-answer");
+    da.innerHTML = `<span class="solution-label">ĐÁP ÁN</span><span class="solution-value">${q.dap_an_dung}</span>`;
+    wrap.appendChild(da);
+  }
+  if (q.huong_dan_giai) {
+    const hd = el("div","solution-guide");
+    hd.innerHTML = `<span class="solution-guide-label">HƯỚNG DẪN GIẢI</span><div class="solution-guide-body mathjax">${q.huong_dan_giai}</div>`;
+    wrap.appendChild(hd);
+  }
+  return wrap;
+}
+
+function toggleSolution(btn, block) {
+  const open = block.classList.contains("is-open");
+  block.classList.toggle("is-open", !open);
+  btn.textContent = open ? "→ XEM LỜI GIẢI CHI TIẾT" : "↑ ẨN LỜI GIẢI";
+  if (!open) typesetNode(block);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER PART I
+═══════════════════════════════════════════════════════════════════ */
+function renderPartI(questions) {
+  const section = el("section","exam-section");
+  section.innerHTML = `
+    <div class="section-header">
+      <div class="section-rule"></div>
+      <div class="section-title-row">
+        <span class="section-num">I</span>
+        <div class="section-title-text">
+          <h2 class="section-title">TRẮC NGHIỆM</h2>
+          <p class="section-desc">4 LỰA CHỌN · ${questions.length} CÂU · ${scoringConfig.phan_I_diem_moi_cau}đ/câu đúng · Chọn một đáp án đúng</p>
+        </div>
+      </div>
+    </div>
+  `;
+  const grid = el("div","questions-grid");
+  questions.forEach(q => {
+    const card = el("div","question-card");
+    card.id = `card-${q.phan}-${q.so_cau}`;
+    const anchor = document.createElement("div");
+    anchor.id = `q-I-${q.so_cau}`;
+    anchor.className = "q-anchor";
+    card.appendChild(anchor);
+
+    const qHead = el("div","question-head");
+    qHead.innerHTML = `<span class="question-num">Câu ${q.so_cau}</span>`;
+    if (q.co_hinh_anh) qHead.appendChild(el("span","question-img-badge","📷 Xem hình"));
+    card.appendChild(qHead);
+    card.appendChild(el("div","question-text mathjax", q.cau_hoi));
+
+    const opts = el("div","options-grid");
+    ["A","B","C","D"].forEach(letter => {
+      const label = el("label","option-label");
+      const qKey  = `I-${q.so_cau}`;
+      label.setAttribute("for",`${qKey}-${letter}`);
+      const radio = document.createElement("input");
+      radio.type  = "radio"; radio.name = qKey;
+      radio.id    = `${qKey}-${letter}`; radio.value = letter;
+      if (answers[qKey] === letter) radio.checked = true;
+      radio.addEventListener("change", () => {
+        answers[qKey] = letter;
+        saveAnswers(); updateRibbon(); updateSidebarProgress();
+      });
+      const oc = el("span","option-content");
+      oc.innerHTML = `<span class="option-letter">${letter}</span><span class="option-text mathjax">${q.lua_chon[letter]}</span>`;
+      label.appendChild(radio); label.appendChild(oc);
+      opts.appendChild(label);
+    });
+    card.appendChild(opts);
+
+    // Solution (self-study toggle — hidden after submit)
+    const solBlock = buildSolutionBlock(q);
+    const solBtn   = el("button","ghost-btn","→ XEM LỜI GIẢI CHI TIẾT");
+    solBtn.addEventListener("click", () => toggleSolution(solBtn, solBlock));
+    card.appendChild(solBtn);
+    card.appendChild(solBlock);
+    grid.appendChild(card);
+  });
+  section.appendChild(grid);
+  return section;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER PART II
+═══════════════════════════════════════════════════════════════════ */
+function renderPartII(questions) {
+  const section = el("section","exam-section");
+  section.innerHTML = `
+    <div class="section-header">
+      <div class="section-rule"></div>
+      <div class="section-title-row">
+        <span class="section-num">II</span>
+        <div class="section-title-text">
+          <h2 class="section-title">ĐÚNG / SAI</h2>
+          <p class="section-desc">TRẮC NGHIỆM · ${questions.length} CÂU · Thang điểm: 1ý=0.1 · 2ý=0.25 · 3ý=0.5 · 4ý=1đ</p>
+        </div>
+      </div>
+    </div>
+  `;
+  const list = el("div","questions-list");
+  questions.forEach(q => {
+    const card = el("div","question-card question-card--wide");
+    card.id = `card-${q.phan}-${q.so_cau}`;
+    const anchor = document.createElement("div");
+    anchor.id = `q-II-${q.so_cau}`;
+    anchor.className = "q-anchor";
+    card.appendChild(anchor);
+
+    card.appendChild(el("div","question-head",`<span class="question-num">Câu ${q.so_cau}</span>`));
+    card.appendChild(el("div","question-text mathjax", q.cau_hoi));
+
+    const yList = el("div","y-nho-list");
+    q.y_nho.forEach(y => {
+      const yKey = `II-${q.so_cau}-${y.ky_hieu}`;
+      const yRow = el("div","y-nho-row");
+      yRow.dataset.yKey = yKey;
+      yRow.setAttribute("data-y-key", yKey);
+
+      const ky = el("div","y-nho-ky-hieu"); ky.textContent = y.ky_hieu;
+      yRow.appendChild(ky);
+      yRow.appendChild(el("div","y-nho-noi-dung mathjax", y.noi_dung));
+
+      const bg = el("div","ds-btn-group");
+      ["Dung","Sai"].forEach(val => {
+        const btn = el("button",`ds-btn ds-btn--${val.toLowerCase()}`);
+        btn.textContent = val==="Dung"?"ĐÚNG":"SAI";
+        if (answers[yKey]===val) btn.classList.add("is-active");
+        btn.addEventListener("click", () => {
+          bg.querySelectorAll(".ds-btn").forEach(b=>b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          answers[yKey] = val;
+          saveAnswers(); updateRibbon(); updateSidebarProgress();
+        });
+        bg.appendChild(btn);
+      });
+      yRow.appendChild(bg);
+      yList.appendChild(yRow);
+    });
+    card.appendChild(yList);
+
+    const solBlock = buildSolutionBlock(q);
+    const solBtn   = el("button","ghost-btn","→ XEM LỜI GIẢI CHI TIẾT");
+    solBtn.addEventListener("click", () => toggleSolution(solBtn, solBlock));
+    card.appendChild(solBtn);
+    card.appendChild(solBlock);
+    list.appendChild(card);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER PART III
+═══════════════════════════════════════════════════════════════════ */
+function renderPartIII(questions) {
+  const section = el("section","exam-section");
+  section.innerHTML = `
+    <div class="section-header">
+      <div class="section-rule"></div>
+      <div class="section-title-row">
+        <span class="section-num">III</span>
+        <div class="section-title-text">
+          <h2 class="section-title">TRẢ LỜI NGẮN</h2>
+          <p class="section-desc">TỰ LUẬN NGẮN · ${questions.length} CÂU · ${scoringConfig.phan_III_diem_moi_cau}đ/câu đúng · Điền đáp án vào ô trống</p>
+        </div>
+      </div>
+    </div>
+  `;
+  const list = el("div","questions-list");
+  questions.forEach(q => {
+    const card = el("div","question-card question-card--wide");
+    card.id = `card-${q.phan}-${q.so_cau}`;
+    const anchor = document.createElement("div");
+    anchor.id = `q-III-${q.so_cau}`;
+    anchor.className = "q-anchor";
+    card.appendChild(anchor);
+
+    const qKey = `III-${q.so_cau}`;
+    card.appendChild(el("div","question-head",`<span class="question-num">Câu ${q.so_cau}</span>`));
+    card.appendChild(el("div","question-text mathjax", q.cau_hoi));
+
+    const iw = el("div","short-input-wrap");
+    const il = el("label","short-input-label","ĐÁP SỐ");
+    il.setAttribute("for",`input-${qKey}`);
+    const inp = document.createElement("input");
+    inp.type = "text"; inp.className = "short-input";
+    inp.id   = `input-${qKey}`; inp.placeholder = "Nhập đáp án...";
+    inp.value = answers[qKey] || ""; inp.autocomplete = "off";
+    inp.addEventListener("input", () => {
+      answers[qKey] = inp.value;
+      saveAnswers(); updateRibbon(); updateSidebarProgress();
+    });
+    iw.appendChild(il); iw.appendChild(inp);
+    card.appendChild(iw);
+
+    const solBlock = buildSolutionBlock(q);
+    const solBtn   = el("button","ghost-btn","→ XEM LỜI GIẢI CHI TIẾT");
+    solBtn.addEventListener("click", () => toggleSolution(solBtn, solBlock));
+    card.appendChild(solBtn);
+    card.appendChild(solBlock);
+    list.appendChild(card);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RENDER EXAM
+═══════════════════════════════════════════════════════════════════ */
+function renderExam(data) {
+  const main = document.getElementById("main-content");
+  document.getElementById("loading-state").remove();
+
+  const pI   = data.filter(q=>q.phan==="I");
+  const pII  = data.filter(q=>q.phan==="II");
+  const pIII = data.filter(q=>q.phan==="III");
+  totalQuestions = pI.length + pII.length + pIII.length;
+
+  const examLabel = examId.replace(/-/g," ").toUpperCase();
+  document.title = `Kiểm Tra · ${examMeta?.ten || examLabel}`;
+
+  document.getElementById("header-meta-left").textContent  = subjectName.toUpperCase() || "TỰ HỌC";
+  document.getElementById("header-meta-right").textContent = examMeta?.ten || examLabel;
+  document.getElementById("header-title").innerHTML        = "KIỂM<br/>TRA";
+  document.getElementById("header-subtitle").textContent   =
+    `${totalQuestions} CÂU · ${pI.length} TRẮC NGHIỆM · ${pII.length} ĐÚNG/SAI · ${pIII.length} TRẢ LỜI NGẮN`;
+  document.getElementById("ribbon-exam-id").textContent = `ĐỀ: ${examMeta?.ten || examLabel}`;
+
+  // Sidebar + mobile nav
+  buildSidebar();
+  document.getElementById("mobile-nav-btn").style.display = "flex";
+
+  // Overview
+  renderExamOverview();
+
+  // Sections
+  if (pI.length)   main.appendChild(renderPartI(pI));
+  if (pII.length)  main.appendChild(renderPartII(pII));
+  if (pIII.length) main.appendChild(renderPartIII(pIII));
+
+  // Submit zone
+  document.getElementById("submit-zone").style.display = "block";
+
+  // MathJax
+  if (window.MathJax && window.MathJax.typesetPromise)
+    MathJax.typesetPromise([main]).catch(console.warn);
+
+  updateRibbon();
+  buildNavGrid();
+  updateSidebarProgress();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════════════════════════════ */
+function renderDashboard(manifest) {
+  const main = document.getElementById("main-content");
+  document.getElementById("loading-state").remove();
+
+  document.title = "Tự Học · Kho Đề Thi";
+  document.getElementById("header-meta-left").textContent  = "TỰ HỌC";
+  document.getElementById("header-meta-right").textContent = "KHO ĐỀ THI";
+  document.getElementById("header-title").innerHTML        = "KHO<br/>ĐỀ";
+  document.getElementById("ribbon-exam-id").textContent    = "KHO ĐỀ THI";
+  document.getElementById("ribbon-progress").textContent   = "TỰ HỌC · TỰ KIỂM TRA · TỰ TIẾN BỘ";
+
+  const totalDe  = manifest.reduce((s,m)=>s+m.de_thi.length,0);
+  document.getElementById("header-subtitle").textContent =
+    `${manifest.length} MÔN HỌC · ${totalDe} ĐỀ THI`;
+  document.getElementById("footer-stats").textContent = `${totalDe} đề`;
+
+  // Subject sections
+  manifest.forEach(subject => {
+    const sec  = el("section","db-subject");
+    const sHdr = el("div","db-subject-header");
+    sHdr.innerHTML = `
+      <div class="db-subject-rule"></div>
+      <div class="db-subject-title-row">
+        <h2 class="db-subject-name">${subject.mon}</h2>
+        <span class="db-subject-desc">${subject.mo_ta}</span>
+      </div>
+    `;
+    sec.appendChild(sHdr);
+
+    if (!subject.de_thi.length) {
+      sec.appendChild(el("div","db-empty",`<span class="db-empty-text">— Chưa có đề thi nào —</span>`));
+    } else {
+      const grid = el("div","db-grid");
+      subject.de_thi.forEach(de => {
+        const prog = computeProgressFromStorage(de.id, de.tong_cau);
+        grid.appendChild(buildExamCard(de, prog));
+      });
+      sec.appendChild(grid);
+    }
+    main.appendChild(sec);
+  });
+
+  // Study Journal
+  const hist = loadHistory();
+  if (hist.length) {
+    const journalSec = el("section","db-subject");
+    journalSec.innerHTML = `
+      <div class="db-subject-header">
+        <div class="db-subject-rule"></div>
+        <div class="db-subject-title-row">
+          <h2 class="db-subject-name">NHẬT KÝ LUYỆN ĐỀ</h2>
+        </div>
+      </div>
+    `;
+    const table = el("div","journal-table");
+    hist.forEach(h => {
+      const row = el("div","journal-row");
+      const d   = new Date(h.date);
+      const dateStr = `${d.getDate().toString().padStart(2,"0")}/${(d.getMonth()+1).toString().padStart(2,"0")} ${d.getHours().toString().padStart(2,"0")}:${d.getMinutes().toString().padStart(2,"0")}`;
+      row.innerHTML = `
+        <span class="journal-date">${dateStr}</span>
+        <span class="journal-name">${h.examName}</span>
+        <span class="journal-subject">${h.subject}</span>
+        <span class="journal-score">${h.score.toFixed(2)} / ${h.maxScore.toFixed(2)}</span>
+        <span class="journal-actions">
+          <a href="?de=${h.examId}" class="journal-link">Xem lại</a>
+        </span>
+      `;
+      table.appendChild(row);
+    });
+    journalSec.appendChild(table);
+    main.appendChild(journalSec);
+  }
+}
+
+function buildExamCard(de, prog) {
+  const card = el("a","db-card");
+  card.href  = `?de=${de.id}`;
+  let statusClass = "db-card__status--untouched";
+  let statusText  = "CHƯA LÀM";
+  if (prog.pct >= 100) { statusClass="db-card__status--done";  statusText="HOÀN THÀNH"; }
+  else if (prog.pct>0) { statusClass="db-card__status--wip";   statusText="ĐANG LÀM"; }
+
+  card.innerHTML = `
+    <div class="db-card__top">
+      <span class="db-card__status ${statusClass}">${statusText}</span>
+      <span class="db-card__id">${de.id}</span>
+    </div>
+    <div class="db-card__body">
+      <p class="db-card__name">${de.ten}</p>
+      <p class="db-card__desc">${de.mo_ta}</p>
+    </div>
+    <div class="db-card__foot">
+      <div class="db-card__meta">
+        <span class="db-card__total">${de.tong_cau} CÂU</span>
+        <span class="db-card__pct">${prog.pct}%</span>
+      </div>
+      <div class="db-card__bar-track">
+        <div class="db-card__bar-fill" style="width:${prog.pct}%"></div>
+      </div>
+    </div>
+    <div class="db-card__arrow">→</div>
+  `;
+  return card;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   FETCH
+═══════════════════════════════════════════════════════════════════ */
+async function fetchJSON(path) {
+  const r = await fetch(BASE_URL + path);
+  if (!r.ok) throw new Error(`HTTP ${r.status} — ${path}`);
+  return r.json();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INIT — ROUTER
+═══════════════════════════════════════════════════════════════════ */
+async function init() {
+  examId = getExamIdFromUrl();
+
+  if (!examId) {
+    // ── DASHBOARD MODE ──
+    try {
+      const manifest = await fetchJSON(MANIFEST_FILE);
+      renderDashboard(manifest);
+    } catch(e) {
+      document.getElementById("loading-state").style.display = "none";
+      document.getElementById("error-state").style.display  = "block";
+      document.getElementById("error-msg").textContent = `Không tải được manifest: ${e.message}`;
+    }
+    return;
+  }
+
+  // ── EXAM MODE ──
+  document.getElementById("ribbon-exam-id").textContent =
+    `ĐỀ: ${examId.replace(/-/g," ").toUpperCase()}`;
+  answers = loadAnswers();
+
+  try {
+    // load manifest to get scoring config + meta
+    const manifest = await fetchJSON(MANIFEST_FILE);
+    for (const subject of manifest) {
+      const found = subject.de_thi.find(d => d.id === examId);
+      if (found) {
+        scoringConfig = { ...scoringConfig, ...subject.cham_diem };
+        subjectName   = subject.mon;
+        examMeta      = found;
+        break;
+      }
+    }
+    examData = await fetchJSON(`${examId}.json`);
+    renderExam(examData);
+  } catch(e) {
+    document.getElementById("loading-state").style.display = "none";
+    document.getElementById("error-state").style.display  = "block";
+    document.getElementById("error-msg").textContent = `Lỗi tải đề: ${e.message}`;
+    console.error(e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

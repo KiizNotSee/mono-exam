@@ -1,0 +1,411 @@
+[
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 1,
+    "cau_hoi": "Tên gọi của ester $CH_3COOC_2H_5$ là",
+    "lua_chon": {
+      "A": "ethyl acetate",
+      "B": "methyl propionate",
+      "C": "ethyl propionate",
+      "D": "methyl acetate"
+    },
+    "dap_an_dung": "A"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 2,
+    "cau_hoi": "Phản ứng điều chế ester từ carboxylic acid và alcohol còn được gọi là phản ứng",
+    "lua_chon": {
+      "A": "ester hóa",
+      "B": "xà phòng hóa",
+      "C": "trung hòa",
+      "D": "trùng ngưng"
+    },
+    "dap_an_dung": "A"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 3,
+    "cau_hoi": "Carbohydrate nào sau đây thuộc loại polysaccharide?",
+    "lua_chon": {
+      "A": "Saccharose",
+      "B": "Cellulose",
+      "C": "Fructose",
+      "D": "Glucose"
+    },
+    "dap_an_dung": "B"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 4,
+    "cau_hoi": "Trong điều kiện thích hợp glucose lên men tạo thành khí $CO_2$ và",
+    "lua_chon": {
+      "A": "$C_2H_5OH$",
+      "B": "$CH_3COOH$",
+      "C": "$HCOOH$",
+      "D": "$CH_3CHO$"
+    },
+    "dap_an_dung": "A"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 5,
+    "cau_hoi": "Saccharose thường được tìm thấy trong loại thực vật nào sau đây?",
+    "lua_chon": {
+      "A": "Cây đậu nành",
+      "B": "Cây lúa mì",
+      "C": "Cây mía",
+      "D": "Cây cà phê"
+    },
+    "dap_an_dung": "C"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 6,
+    "cau_hoi": "Trong dung dịch, saccharose phản ứng với $Cu(OH)_2$ cho dung dịch màu",
+    "lua_chon": {
+      "A": "vàng",
+      "B": "xanh lam",
+      "C": "tím",
+      "D": "nâu đỏ"
+    },
+    "dap_an_dung": "B"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 7,
+    "cau_hoi": "Để biến một số dầu thành mỡ rắn hoặc bơ nhân tạo người ta thực hiện quá trình nào sau đây?",
+    "lua_chon": {
+      "A": "Cô cạn ở nhiệt độ cao",
+      "B": "Hydrogen hóa (xt, $t^o$, p)",
+      "C": "Làm lạnh",
+      "D": "Phản ứng xà phòng hóa"
+    },
+    "dap_an_dung": "B"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 8,
+    "cau_hoi": "Cellulose có cấu tạo mạch không phân nhánh, mỗi đơn vị $C_6H_{10}O_5$ có 3 nhóm OH, nên có thể viết là",
+    "lua_chon": {
+      "A": "$[C_6H_8O_2(OH)_3]_n$",
+      "B": "$[C_6H_8O_2(OH)_3]_n$",
+      "C": "$[C_6H_7O_2(OH)_3]_n$",
+      "D": "$[C_6H_7O_3(OH)_2]_n$"
+    },
+    "dap_an_dung": "C"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 9,
+    "cau_hoi": "Chất nào sau đây không thuộc loại acid béo omega-6?",
+    "lua_chon": {
+      "A": "Cấu trúc A (xem hình)",
+      "B": "Cấu trúc B (xem hình)",
+      "C": "Cấu trúc C (xem hình)",
+      "D": "Cấu trúc D (xem hình)"
+    },
+    "dap_an_dung": "B",
+    "co_hinh_anh": true
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 10,
+    "cau_hoi": "Phần kị nước trong xà phòng và chất giặt rửa là",
+    "lua_chon": {
+      "A": "nhóm carboxylate",
+      "B": "nhóm sulfate",
+      "C": "gốc hydrocarbon dài",
+      "D": "nhóm sulfonate"
+    },
+    "dap_an_dung": "C"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 11,
+    "cau_hoi": "Dung dịch nào sau đây là chất giặt rửa tự nhiên?",
+    "lua_chon": {
+      "A": "Nước quả cam",
+      "B": "Nước quả chanh",
+      "C": "Nước quả bồ kết",
+      "D": "Nước quả dâu"
+    },
+    "dap_an_dung": "C"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 12,
+    "cau_hoi": "Công thức nào dưới đây phù hợp với công thức cấu tạo của $\\beta$-glucose?",
+    "lua_chon": {
+      "A": "Cấu trúc A (xem hình)",
+      "B": "Cấu trúc B (xem hình)",
+      "C": "Cấu trúc C (xem hình)",
+      "D": "Cấu trúc D (xem hình)"
+    },
+    "dap_an_dung": "B",
+    "co_hinh_anh": true
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 13,
+    "cau_hoi": "Phát biểu nào sau đây đúng?",
+    "lua_chon": {
+      "A": "Maltose không có nhóm -OH hemiacetal",
+      "B": "Một phân tử saccharose gồm hai đơn vị $\\alpha$-glucose",
+      "C": "Hai đơn vị glucose trong maltose liên kết với nhau bằng liên kết $\\alpha-1,2$-glycoside",
+      "D": "Saccharose và maltose có cùng công thức phân tử"
+    },
+    "dap_an_dung": "D"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 14,
+    "cau_hoi": "Ester X có công thức phân tử $C_4H_8O_2$. Thủy phân X trong dung dịch NaOH dư, thu được sản phẩm gồm sodium propionate và alcohol Y. Công thức của Y là",
+    "lua_chon": {
+      "A": "$C_3H_5(OH)_3$",
+      "B": "$C_2H_5OH$",
+      "C": "$C_3H_7OH$",
+      "D": "$CH_3OH$"
+    },
+    "dap_an_dung": "D"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 15,
+    "cau_hoi": "Tinh bột và cellulose đều tham gia phản ứng nào sau đây?",
+    "lua_chon": {
+      "A": "Phản ứng thủy phân",
+      "B": "Phản ứng màu với dung dịch iodine",
+      "C": "Phản ứng với thuốc thử Tollens",
+      "D": "Phản ứng với nước bromine"
+    },
+    "dap_an_dung": "A"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 16,
+    "cau_hoi": "Dung dịch (1) chứa $CuSO_4$ trong nước, dung dịch (2) là dung dịch ammonia có hoà tan một lượng $AgNO_3$, dung dịch (3) là dung dịch ammonia có hoà tan một lượng $Cu(OH)_2$. Dung dịch nào trong số các dung dịch trên có khả năng hoà tan cellulose?",
+    "lua_chon": {
+      "A": "Dung dịch (1)",
+      "B": "Dung dịch (2)",
+      "C": "Dung dịch (3)",
+      "D": "Không dung dịch nào"
+    },
+    "dap_an_dung": "C"
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 17,
+    "cau_hoi": "Cho 4 hợp chất: methyl formate, acetic acid, propyl alcohol, ethyl formate kí hiệu ngẫu nhiên lần lượt là X, Y, Z, T. Nhiệt độ sôi của các chất được cho ở bảng sau:\n| Hợp chất | X | Y | Z | T |\n|---|---|---|---|---|\n| Khối lượng phân tử | 60 | 60 | 60 | 74 |\n| Nhiệt độ sôi (°C) | 97 | 118 | 32 | 54 |\nTrong chất trên, methyl formate là",
+    "lua_chon": {
+      "A": "Y",
+      "B": "T",
+      "C": "X",
+      "D": "Z"
+    },
+    "dap_an_dung": "D",
+    "huong_dan_giai": "Khối lượng phân tử tương đương thì nhiệt độ sôi: Carboxylic acid > alcohol > ester. Cùng là ester thì nhiệt độ sôi tăng khi khối lượng phân tử tăng. Suy ra: X là propyl alcohol, Y là acetic acid, Z là methyl formate, T là ethyl formate."
+  },
+  {
+    "phan": "I",
+    "loai": "trac_nghiem_4_lua_chon",
+    "so_cau": 18,
+    "cau_hoi": "Cho các chất sau: (1) $CH_3[CH_2]_7CH=CH[CH_2]_7COONa$, (2) $CH_3[CH_2]_{15}SO_3Na$, (3) $CH_3[CH_2]_{14}COOK$, (4) $CH_3[CH_2]_{10}COOK$ và (5) $CH_3COONa$. Trong các chất nêu trên, những chất có thể là thành phần chính của xà phòng?",
+    "lua_chon": {
+      "A": "(1), (2), (3)",
+      "B": "(2), (5)",
+      "C": "(1), (3), (4)",
+      "D": "(1), (2), (3), (4)"
+    },
+    "dap_an_dung": "C",
+    "huong_dan_giai": "Xà phòng là muối Na, K của acid béo (số C chẵn từ 12–24C): RCOONa hoặc RCOOK. Loại (2) vì đây là chất giặt rửa tổng hợp ($RSO_3Na$ hoặc $ROSO_3Na$). Loại (5) vì đây không phải muối của acid béo."
+  },
+  {
+    "phan": "II",
+    "loai": "trac_nghiem_dung_sai",
+    "so_cau": 1,
+    "cau_hoi": "Methyl methacrylate (MMA) là một hợp chất hữu cơ quan trọng trong nhiều ngành công nghiệp. Ở điều kiện thường, methyl methacrylate tồn tại ở trạng thái lỏng không màu và có mùi trái cây. Methyl methacrylate có nhiều ứng dụng rộng rãi như sản xuất nhựa acrylic và nhựa ABS, làm keo gắn xương trong phẫu thuật, thành phần trong sơn và chất phủ, xử lý vải, và trong sản xuất keo dán và vật liệu nha khoa.",
+    "y_nho": [
+      {
+        "ky_hieu": "a",
+        "noi_dung": "Công thức của methyl methacrylate là $CH_2=C(CH_3)COOCH_3$.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng."
+      },
+      {
+        "ky_hieu": "b",
+        "noi_dung": "Ở điều kiện thường, methyl methacrylate là chất khí có mùi hoa quả.",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì điều kiện thường methyl methacrylate là chất lỏng."
+      },
+      {
+        "ky_hieu": "c",
+        "noi_dung": "Thủy phân hoàn toàn methyl methacrylate thu được alcohol có khối lượng phân tử là 32 amu.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng. $CH_2=C(CH_3)COOCH_3 + NaOH \\xrightarrow{t^o} CH_3=C(CH_3)COONa + CH_3OH$ (M = 32)."
+      },
+      {
+        "ky_hieu": "d",
+        "noi_dung": "Methyl methacrylate tan trong nước tốt hơn methyl formate.",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì methyl methacrylate tan trong nước kém hơn methyl formate vì có số C lớn hơn."
+      }
+    ]
+  },
+  {
+    "phan": "II",
+    "loai": "trac_nghiem_dung_sai",
+    "so_cau": 2,
+    "cau_hoi": "Chất béo là một trong ba chất dinh dưỡng chính cung cấp năng lượng cho cơ thể (gồm chất béo, chất đạm và chất bột đường), ngoài ra chất béo còn thực hiện nhiều nhiệm vụ quan trọng khác. Nhờ có chất béo, chúng ta có thể hấp thụ các loại vitamin tan trong dầu, như vitamin A, vitamin D và vitamin E. Chất béo còn giúp duy trì nhiệt độ cơ thể, duy trì sức khỏe của da và tóc…",
+    "y_nho": [
+      {
+        "ky_hieu": "a",
+        "noi_dung": "Ở điều kiện thường, chất béo ở trạng thái lỏng hoặc rắn.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng."
+      },
+      {
+        "ky_hieu": "b",
+        "noi_dung": "Chất béo có khả năng hòa tan vitamin A, vitamin D và vitamin E.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng."
+      },
+      {
+        "ky_hieu": "c",
+        "noi_dung": "Chất béo có chứa nhiều gốc acid béo không no ở trạng thái rắn điều kiện thường như mỡ lợn, mỡ bò, mỡ cừu, …",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì chất béo chứa nhiều gốc acid béo không no ở trạng thái lỏng điều kiện thường."
+      },
+      {
+        "ky_hieu": "d",
+        "noi_dung": "Chất béo có chứa nhiều gốc acid béo no ở trạng thái lỏng điều kiện thường như dầu lạc, dầu vừng, dầu cá, …",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì chất béo chứa nhiều gốc acid béo no ở trạng thái rắn điều kiện thường."
+      }
+    ]
+  },
+  {
+    "phan": "II",
+    "loai": "trac_nghiem_dung_sai",
+    "so_cau": 3,
+    "cau_hoi": "Tiến hành thí nghiệm theo các bước sau:\nBước 1: Cho 1 mL dung dịch $AgNO_3$ 1% vào ống nghiệm sạch.\nBước 2: Thêm từ từ từng giọt dung dịch $NH_3$, lắc đều cho đến khi kết tủa tan hết.\nBước 3: Thêm tiếp khoảng 1 mL dung dịch glucose 1% vào ống nghiệm, đun nóng nhẹ.",
+    "y_nho": [
+      {
+        "ky_hieu": "a",
+        "noi_dung": "Sản phẩm hữu cơ thu được sau bước 3 là gluconic acid ($CH_2OH-(CHOH)_4-COOH$).",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai. Sản phẩm hữu cơ thu được sau bước 3 là ammonium gluconate."
+      },
+      {
+        "ky_hieu": "b",
+        "noi_dung": "Thí nghiệm trên chứng minh glucose có tính chất của alcohol đa chức.",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì phản ứng chứng minh glucose có tính chất của aldehyde."
+      },
+      {
+        "ky_hieu": "c",
+        "noi_dung": "Sau bước 3, có lớp bạc kim loại bám trên thành ống nghiệm.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng."
+      },
+      {
+        "ky_hieu": "d",
+        "noi_dung": "Ở bước 3, có thể thay việc đun nóng nhẹ bằng cách ngâm ống nghiệm trong nước nóng.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng."
+      }
+    ]
+  },
+  {
+    "phan": "II",
+    "loai": "trac_nghiem_dung_sai",
+    "so_cau": 4,
+    "cau_hoi": "Maltose còn được gọi là đường mạch nha, chủ yếu được nên từ quá trình thủy phân tinh bột. Maltose được sử dụng làm nguyên liệu sản xuất bia và chất tạo ngọt cho một số loại bánh kẹo.",
+    "y_nho": [
+      {
+        "ky_hieu": "a",
+        "noi_dung": "Maltose thuộc loại monosaccharide.",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì maltose thuộc loại disaccharide."
+      },
+      {
+        "ky_hieu": "b",
+        "noi_dung": "Hai đơn vị glucose phân tử từ maltose liên kết với nhau bằng liên kết $\\alpha-1,4$-glycoside.",
+        "ket_qua": "Dung",
+        "giai_thich": "Đúng."
+      },
+      {
+        "ky_hieu": "c",
+        "noi_dung": "Maltose có cả cấu tạo dạng mạch vòng và mạch hở.",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì Maltose chỉ có mạch vòng và mở vòng – không có mạch hở."
+      },
+      {
+        "ky_hieu": "d",
+        "noi_dung": "Phân tử maltose không có nhóm -OH hemiacetal.",
+        "ket_qua": "Sai",
+        "giai_thich": "Sai vì maltose có nhóm -OH hemiacetal."
+      }
+    ]
+  },
+  {
+    "phan": "III",
+    "loai": "tra_loi_ngan",
+    "so_cau": 1,
+    "cau_hoi": "Đun nóng một loại mỡ động vật với dung dịch NaOH, sản phẩm thu được có chứa muối sodium oleate ($C_{17}H_{33}COONa$). Phân tử khối của sodium oleate là bao nhiêu?",
+    "dap_an_dung": "304"
+  },
+  {
+    "phan": "III",
+    "loai": "tra_loi_ngan",
+    "so_cau": 2,
+    "cau_hoi": "Saccharose là một disaccharide có nhiều trong mía, củ cải đường, .... Phần trăm khối lượng của nguyên tố oxygen trong saccharose bằng bao nhiêu %? Kết quả làm tròn đến hàng đơn vị.",
+    "dap_an_dung": "51"
+  },
+  {
+    "phan": "III",
+    "loai": "tra_loi_ngan",
+    "so_cau": 3,
+    "cau_hoi": "Cho các chất: (1) palmitic acid, (2) tristearin, (3) sodium hydroxide, (4) chlohidric acid, (5) sodium chloride, (6) glycerol. Hãy sắp xếp các chất được sử dụng trong quá trình điều chế xà phòng bằng phản ứng xà phòng hóa thành một bộ số theo số thứ tự tăng dần (ví dụ 23, 134, …)",
+    "dap_an_dung": "235"
+  },
+  {
+    "phan": "III",
+    "loai": "tra_loi_ngan",
+    "so_cau": 4,
+    "cau_hoi": "Cho các công thức: (1) $CH_2OH[CHOH]_4CHO$, (2) $CH_2OH[CHOH]_4COOH$, (3) $CH_2OH[CHOH]_4COONH_4$, (4) $[C_6H_7O_2(ONO_2)_3]_n$. Gán số thứ tự các chất trên theo tên gọi: glucose, cellulose trinitrate, gluconic acid, ammonium gluconate và sắp xếp theo trình tự thành dãy bốn số (ví dụ: 1234, 4321, …).",
+    "dap_an_dung": "1423"
+  },
+  {
+    "phan": "III",
+    "loai": "tra_loi_ngan",
+    "so_cau": 5,
+    "cau_hoi": "Cho các phương trình hóa học của các phản ứng được gán số thứ tự dưới đây:\n(1) $(C_{15}H_{31}COO)C_3H_5 + 3NaOH \\xrightarrow{t^o} 3C_{15}H_{31}COONa + C_3H_5(OH)_3$\n(2) $CH_3COOH + C_2H_5OH \\underset{}{\\overset{H_2SO_4 \\text{ đặc}}{\\rightleftharpoons}} CH_3COOC_2H_5 + H_2O$\n(3) $(C_{17}H_{33}COO)_3C_3H_5 + 3H_2 \\xrightarrow{xt,t^o,p} (C_{17}H_{35}COO)_3C_3H_5$\n(4) $C_2H_5COOC_2H_5 + H_2O \\underset{}{\\overset{H^+, t^o}{\\rightleftharpoons}} C_2H_5COOH + C_2H_5OH$\nGán số thứ tự phương trình hóa học của các phản ứng theo thứ tự tên gọi: ester hóa, hydrogen hóa, xà phòng hóa, thủy phân trong môi trường acid và sắp xếp theo trình tự thành dãy bốn số (ví dụ: 1234, 2341, 3421, …)",
+    "dap_an_dung": "2314"
+  },
+  {
+    "phan": "III",
+    "loai": "tra_loi_ngan",
+    "so_cau": 6,
+    "cau_hoi": "Trong mỗi đơn vị glucose cấu thành nên phân tử cellulose có ba nhóm hydroxy. Khi đun nóng cellulose với hỗn hợp $HNO_3$ đặc và $H_2SO_4$ đặc, tùy theo điều kiện phản ứng mà một, hai hay cả ba nhóm hydroxy này có thể có phản ứng với nitric acid để tạo thành cellulose nitrate. Khi phân tích một mẫu cellulose nitrate người ta thấy có 58,29% oxygen về khối lượng. Trung bình trong một đơn vị glucose trong mẫu cellulose trên có bao nhiêu nhóm nitrate? Kết quả làm tròn đến hàng phần mười.",
+    "dap_an_dung": "2.5",
+    "huong_dan_giai": "Công thức tổng quát cellulose nitrate: $[C_6H_7O_2(ONO_2)_x(OH)_{3-x}]_n$. $\\%m_O = \\frac{16 \\cdot (2+3x+3-x)}{111+62x+17(3-x)} \\cdot 100\\% = 58{,}29\\% \\Rightarrow x \\approx 2{,}5$"
+  }
+]
